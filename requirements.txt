@@ -1,0 +1,12 @@
+fastapi
+fastai==1.0.57
+python-multipart
+numpy
+efficientnet_pytorch
+pytorch==1.1.0
+torchvision==0.3.0
+pandas
+opencv-python
+sklearn
+uvicorn
+
