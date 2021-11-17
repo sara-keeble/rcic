@@ -7,8 +7,8 @@ import cv2
 import numpy
 from efficientnet_pytorch import *
 import torchvision
-import train_cnn
-from train_cnn import MultiChannelImageList
+import export_databunch
+from export_databunch import MultiChannelImageList
 
 app = FastAPI()
 
