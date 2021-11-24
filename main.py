@@ -38,18 +38,19 @@ def efficientnetb0(pretrained=True,num_channels=6):
     return efficientnet_multichannel(pretrained=pretrained,name='b0',num_channels=num_channels)
 
 class ModelPredict():
-    def __init__(self, files):
-        self.filenames = files
-        print(self.filenames)
-    
-    def predict(self):
+    def __init__(self):
         #train_cnn.main()
         empty_data = ImageDataBunch.load_empty(path='.', fname='databunch_ada19_export.pkl')        
         learn = Learner(empty_data, efficientnetb0(), metrics=[accuracy], model_dir='.')
         learn = learn.load('efficientnet_14_epochs_site2_export', device = 'cpu').to_fp32()
+    
+    def predict(self, files):
+        self.filenames = files
         img = open_rcic_image(self.filenames)
         pred_class, pred_idx, outputs = learn.predict(img)
         return str(pred_class)
+    
+m = ModelPredict()
 
 @app.get("/")
 def main():
@@ -72,6 +73,6 @@ async def create_upload_files(files: List[UploadFile] = File(...)):
         with open(filename, 'wb') as f:
             f.write(contents)
         fnames.append(filename)
-    m = ModelPredict(fnames).predict()
-    return m
+    pred = m.predict(fnames)
+    return pred
 
